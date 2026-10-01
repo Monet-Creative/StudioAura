@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Studio Aura — Admin</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="./images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="Index.html"><img src="./images/logo.png" alt="" width="42" height="42">Studio <em>Aura</em></a>
+    <a class="btn btn-ghost" href="Index.html" style="padding:12px 24px;">← Voltar ao site</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="admin" style="padding-top:calc(150px + env(safe-area-inset-top,0px));">
+    <div class="wrap">
+
+      <div class="admin-gate" id="adminGate">
+        <p class="step-label">Área restrita</p>
+        <h2 class="booking-title admin-gate-title">Acesso Administrativo</h2>
+        <p class="lede admin-gate-lede">Esta área é exclusiva da equipe Studio Aura.</p>
+        <div class="field admin-gate-field">
+          <label for="adminPasswordInput">Senha de acesso</label>
+          <input type="password" id="adminPasswordInput" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <p class="admin-error" id="adminGateError" hidden>Senha incorreta.</p>
+        <p class="admin-error" id="adminGateLocked" hidden></p>
+        <p class="admin-error" id="adminGateMissing" hidden>Admin não configurado: crie admin-config.js a partir de admin-config.example.js.</p>
+        <button type="button" class="btn btn-booking admin-gate-btn" id="adminGateSubmit">Entrar</button>
+      </div>
+
+      <div class="admin-panel" id="adminPanel" hidden>
+        <div class="admin-head">
+          <div>
+            <p class="step-label">Painel administrativo</p>
+            <h2 class="booking-title admin-gate-title">Studio Aura — Admin</h2>
+          </div>
+          <button type="button" class="btn btn-ghost" id="adminLogout">Sair</button>
+        </div>
+
+        <div class="admin-tabs" role="tablist">
+          <button type="button" class="admin-tab is-active" data-tab="agendamentos">Agendamentos</button>
+          <button type="button" class="admin-tab" data-tab="disponibilidade">Disponibilidade</button>
+          <button type="button" class="admin-tab" data-tab="servicos">Serviços</button>
+          <button type="button" class="admin-tab" data-tab="portfolio">Portfólio</button>
+        </div>
+
+        <div class="admin-content" data-panel="agendamentos">
+          <div class="admin-content-head">
+            <button type="button" class="btn btn-ghost admin-refresh" id="agendamentosRefresh">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 0 1 15.4-6.4L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.4 6.4L3 16M3 21v-5h5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Atualizar
+            </button>
+            <span class="admin-refresh-msg" id="agendamentosRefreshMsg"></span>
+          </div>
+          <p class="admin-empty" id="agendamentosEmpty" hidden>Nenhum agendamento recebido ainda.</p>
+          <div class="admin-list" id="agendamentosList"></div>
+        </div>
+
+        <div class="admin-content" data-panel="disponibilidade" hidden>
+          <form class="admin-form" id="disponibilidadeForm">
+            <div class="field">
+              <label for="dispData">Data</label>
+              <input type="date" id="dispData" required>
+            </div>
+            <div class="field">
+              <label for="dispHorarios">Horários (separados por vírgula)</label>
+              <input type="text" id="dispHorarios" placeholder="10:30, 14:00, 16:30" required>
+            </div>
+            <button type="submit" class="btn btn-ghost">Adicionar data</button>
+          </form>
+          <div class="admin-list" id="disponibilidadeList"></div>
+        </div>
+
+        <div class="admin-content" data-panel="servicos" hidden>
+          <form class="admin-form" id="servicoForm">
+            <div class="field">
+              <label for="svcNome">Nome do serviço</label>
+              <input type="text" id="svcNome" placeholder="Ex: Design de Sobrancelha" required>
+            </div>
+            <div class="field">
+              <label for="svcDescricao">Descrição</label>
+              <input type="text" id="svcDescricao" placeholder="Frase curta sobre o serviço" required>
+            </div>
+            <div class="field">
+              <label for="svcIcone">Ícone</label>
+              <select id="svcIcone"></select>
+            </div>
+            <div class="field">
+              <label for="svcCor">Cor</label>
+              <select id="svcCor">
+                <option value="primary">Primária (pêssego)</option>
+                <option value="secondary">Secundária (menta)</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-ghost">Adicionar serviço</button>
+          </form>
+          <div class="admin-list admin-list--services" id="servicosList"></div>
+        </div>
+
+        <div class="admin-content" data-panel="portfolio" hidden>
+          <form class="admin-form" id="portfolioForm">
+            <div class="field">
+              <label for="pfImagem">URL da imagem</label>
+              <input type="text" id="pfImagem" placeholder="images/portfolio/novo.jpg" required>
+            </div>
+            <div class="field">
+              <label for="pfLegenda">Legenda</label>
+              <input type="text" id="pfLegenda" placeholder="Ex: Nail art floral" required>
+            </div>
+            <button type="submit" class="btn btn-ghost">Adicionar imagem</button>
+          </form>
+          <p class="admin-note">Alterações no portfólio aparecem para os visitantes ao recarregar a página.</p>
+          <div class="admin-list admin-list--portfolio" id="portfolioList"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<div class="admin-confirm" id="adminConfirm" hidden>
+  <div class="admin-confirm-card">
+    <h3 id="adminConfirmTitle">Confirmar ação</h3>
+    <p class="lede" id="adminConfirmText">Esta ação requer a senha de ações administrativas.</p>
+    <div class="field" id="adminConfirmPasswordField">
+      <label for="adminConfirmPassword">Senha de ação</label>
+      <input type="password" id="adminConfirmPassword" autocomplete="off">
+    </div>
+    <p class="admin-error" id="adminConfirmError" hidden>Senha incorreta.</p>
+    <div class="admin-confirm-actions">
+      <button type="button" class="btn btn-ghost" id="adminConfirmCancel">Cancelar</button>
+      <button type="button" class="btn btn-booking" id="adminConfirmOk">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<script src="admin-config.js"></script>
+<script src="script.js"></script>
+<script src="admin.js"></script>
+
+</body></html>
